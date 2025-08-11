@@ -6,7 +6,7 @@
 
 # MBSE Docker images
 
-[![REUSE status](https://api.reuse.software/badge/github.com/DSD-DBS/capella-dockerimages)](https://api.reuse.software/info/github.com/DSD-DBS/capella-dockerimages)
+[![REUSE status](https://api.reuse.software/badge/github.com/dbinfrago/capella-dockerimages)](https://api.reuse.software/info/github.com/dbinfrago/capella-dockerimages)
 
 ## Introduction
 
@@ -28,7 +28,7 @@ The main purposes for containerizing these tools are:
 - **Documentation**: All configuration options are documented in the
   Dockerfiles.
 - **Collaboration**: The containers can be used in the
-  [Collaboration Manager](https://github.com/DSD-DBS/capella-collab-manager)
+  [Collaboration Manager](https://github.com/dbinfrago/capella-collab-manager)
 
 More information can be found in our
-[documentation](https://dsd-dbs.github.io/capella-dockerimages/).
+[documentation](https://dbinfrago.github.io/capella-dockerimages/).

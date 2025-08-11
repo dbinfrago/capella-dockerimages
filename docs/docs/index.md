@@ -6,7 +6,7 @@
 # Welcome
 
 Welcome to the MBSE Docker images repository. Initially started for our
-[Capella Collaboration Manager](https://github.com/DSD-DBS/capella-collab-manager)
+[Capella Collaboration Manager](https://github.com/dbinfrago/capella-collab-manager)
 to run Capella in a browser, we now offer a variety of Docker images to
 automate processes in the MBSE context.
 
@@ -28,7 +28,7 @@ instructions.
 To get started, please clone this repository and include all submodules:
 
 ```zsh
-git clone https://github.com/DSD-DBS/capella-dockerimages.git
+git clone https://github.com/dbinfrago/capella-dockerimages.git
 ```
 
 ### Build images using our CLI
@@ -110,6 +110,6 @@ manually.
 ## Build images in a CI/CD environment
 
 We provide a
-[Gitlab CI/CD template](https://github.com/DSD-DBS/capella-dockerimages/blob/main/ci-templates/gitlab/image-builder.yml)
+[Gitlab CI/CD template](https://github.com/dbinfrago/capella-dockerimages/blob/main/ci-templates/gitlab/image-builder.yml)
 to build the images in CI/CD environment. Please find the instructions
-[here](https://github.com/DSD-DBS/capella-dockerimages/tree/main/ci-templates/gitlab#image-builder).
+[here](https://github.com/dbinfrago/capella-dockerimages/tree/main/ci-templates/gitlab#image-builder).

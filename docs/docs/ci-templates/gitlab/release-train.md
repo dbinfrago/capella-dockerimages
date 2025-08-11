@@ -37,7 +37,7 @@ and `.jupyter` which can be extended:
 
 ```yaml
 include:
-  - remote: https://raw.githubusercontent.com/DSD-DBS/capella-dockerimages/${CAPELLA_DOCKER_IMAGES_REVISION}/ci-templates/gitlab/release-train.yml"
+  - remote: https://raw.githubusercontent.com/dbinfrago/capella-dockerimages/${CAPELLA_DOCKER_IMAGES_REVISION}/ci-templates/gitlab/release-train.yml"
 
 .staging: &staging
   rules:

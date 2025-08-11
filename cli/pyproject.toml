@@ -35,8 +35,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/DSD-DBS/capella-dockerimages"
-Documentation = "https://github.com/DSD-DBS/capella-dockerimages"
+Homepage = "https://github.com/dbinfrago/capella-dockerimages"
+Documentation = "https://github.com/dbinfrago/capella-dockerimages"
 
 [project.scripts]
 cdi = "cdi.__main__:app"

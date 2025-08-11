@@ -33,7 +33,7 @@ The following environment variable can be set in all images:
 ## Use the prebuilt image
 
 ```
-docker run -it ghcr.io/dsd-dbs/capella-dockerimages/base:$CAPELLA_DOCKER_IMAGES_REVISION
+docker run -it ghcr.io/dbinfrago/capella-dockerimages/base:$CAPELLA_DOCKER_IMAGES_REVISION
 ```
 
 where `$CAPELLA_DOCKER_IMAGES_REVISION` is the tag or branch of this

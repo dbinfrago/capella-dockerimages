@@ -7,7 +7,7 @@
 
 The image builder template builds all images supported by this repository, and pushes them to any Docker
 registry. We use it in our automated deployment environment for our
-[Collaboration project](https://github.com/DSD-DBS/capella-collab-manager). We
+[Collaboration project](https://github.com/dbinfrago/capella-collab-manager). We
 have restricted internet access in our build environment, so the Gitlab CI
 template is optimized for restricted network access.
 
@@ -15,7 +15,7 @@ Please add the following section to your `.gitlab-ci.yml`:
 
 ```yaml
 include:
-  - remote: https://raw.githubusercontent.com/DSD-DBS/capella-dockerimages/${CAPELLA_DOCKER_IMAGES_REVISION}/ci-templates/gitlab/image-builder.yml
+  - remote: https://raw.githubusercontent.com/dbinfrago/capella-dockerimages/${CAPELLA_DOCKER_IMAGES_REVISION}/ci-templates/gitlab/image-builder.yml
 ```
 
 ## Tagging of images
@@ -93,4 +93,4 @@ The tree inside of your Gitlab repository should look like:
 
 This is the minimal configuration. For more advanced configuration options,
 please refer to the
-[Gitlab CI template](https://github.com/DSD-DBS/capella-dockerimages/blob/main/ci-templates/gitlab/image-builder.yml).
+[Gitlab CI template](https://github.com/dbinfrago/capella-dockerimages/blob/main/ci-templates/gitlab/image-builder.yml).

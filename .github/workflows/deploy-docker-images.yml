@@ -11,7 +11,7 @@ on:
 
 env:
   COLUMNS: 120
-  REGISTRY: ghcr.io/dsd-dbs/capella-dockerimages/
+  REGISTRY: ghcr.io/dbinfrago/capella-dockerimages/
 
 jobs:
   lint:

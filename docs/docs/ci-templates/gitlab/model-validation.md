@@ -22,8 +22,8 @@ variables:
   ENTRYPOINT: test.aird # Filename of the `.aird` file
 
 include:
-  - remote: https://raw.githubusercontent.com/DSD-DBS/capella-dockerimages/${CAPELLA_DOCKER_IMAGES_REVISION}/ci-templates/gitlab/model-validation.yml
+  - remote: https://raw.githubusercontent.com/dbinfrago/capella-dockerimages/${CAPELLA_DOCKER_IMAGES_REVISION}/ci-templates/gitlab/model-validation.yml
 ```
 
 For more information, please refer to the
-[Gitlab CI template](https://github.com/DSD-DBS/capella-dockerimages/blob/main/ci-templates/gitlab/model-validation.yml).
+[Gitlab CI template](https://github.com/dbinfrago/capella-dockerimages/blob/main/ci-templates/gitlab/model-validation.yml).

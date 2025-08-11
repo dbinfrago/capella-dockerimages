@@ -123,7 +123,7 @@ For development purposes, you can test the importer / backup locally.
     ```
 
 1. Open Capella and create a new Capella project with the project name "test".
-1. [Export the project to the TeamForCapella repository](https://dsd-dbs.github.io/capella-collab-manager/user/tools/capella/teamforcapella/export/export-to-t4c/)
+1. [Export the project to the TeamForCapella repository](https://dbinfrago.github.io/capella-collab-manager/user/tools/capella/teamforcapella/export/export-to-t4c/)
 1. Run the following command to start the importer:
 
     ```zsh

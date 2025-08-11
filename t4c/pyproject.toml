@@ -25,7 +25,7 @@ classifiers = [
 dependencies = ["PyYAML", "click", "lxml"]
 
 [project.urls]
-Homepage = "https://github.com/DSD-DBS/capella-dockerimages"
+Homepage = "https://github.com/dbinfrago/capella-dockerimages"
 
 [project.optional-dependencies]
 dev = [

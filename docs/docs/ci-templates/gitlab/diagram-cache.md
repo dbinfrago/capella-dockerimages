@@ -12,7 +12,7 @@ variables:
   CAPELLA_VERSION: 6.0.0 # Enter the Capella version of the model here
 
 include:
-  - remote: https://raw.githubusercontent.com/DSD-DBS/capella-dockerimages/${CAPELLA_DOCKER_IMAGES_REVISION}/ci-templates/gitlab/diagram-cache.yml
+  - remote: https://raw.githubusercontent.com/dbinfrago/capella-dockerimages/${CAPELLA_DOCKER_IMAGES_REVISION}/ci-templates/gitlab/diagram-cache.yml
 
 update_capella_diagram_cache:
   variables:
@@ -26,4 +26,4 @@ level. Make sure to enable the "Expand variable reference" flag.
 
 This is the minimal configuration. For more advanced configuration options,
 please refer to the
-[Gitlab CI template](https://github.com/DSD-DBS/capella-dockerimages/blob/main/ci-templates/gitlab/diagram-cache.yml).
+[Gitlab CI template](https://github.com/dbinfrago/capella-dockerimages/blob/main/ci-templates/gitlab/diagram-cache.yml).
