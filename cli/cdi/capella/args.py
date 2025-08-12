@@ -170,7 +170,7 @@ TeamForCapellaRepositoryListOption = t.Annotated[
             " The format is described in our "
             + formatting.build_rich_link(
                 text="documentation",
-                link="https://dsd-dbs.github.io/capella-dockerimages/capella/t4c/base/#run-the-container",
+                link="https://dbinfrago.github.io/capella-dockerimages/capella/t4c/base/#run-the-container",
             )
             + "."
         ),

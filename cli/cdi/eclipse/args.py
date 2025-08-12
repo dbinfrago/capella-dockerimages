@@ -20,7 +20,7 @@ MemoryMinOption = t.Annotated[
             " requested memory by the container."
             " More information in our "
             + formatting.build_rich_link(
-                link="https://dsd-dbs.github.io/capella-dockerimages/eclipse/memory-options/",
+                link="https://dbinfrago.github.io/capella-dockerimages/eclipse/memory-options/",
                 text="documentation",
             )
             + "."
@@ -42,7 +42,7 @@ MemoryMaxOption = t.Annotated[
             " of the system or the total memory available to the container."
             " More information in our "
             + formatting.build_rich_link(
-                link="https://dsd-dbs.github.io/capella-dockerimages/eclipse/memory-options/",
+                link="https://dbinfrago.github.io/capella-dockerimages/eclipse/memory-options/",
                 text="documentation",
             )
             + "."
