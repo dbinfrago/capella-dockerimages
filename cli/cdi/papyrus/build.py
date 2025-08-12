@@ -44,7 +44,7 @@ def validate_papyrus_archive(
             ),
             papyrus_version,
             formatting.build_rich_link(
-                link="https://dsd-dbs.github.io/capella-dockerimages/papyrus/base/#download-papyrus",
+                link="https://dbinfrago.github.io/capella-dockerimages/papyrus/base/#download-papyrus",
                 text="documentation",
             ),
         )

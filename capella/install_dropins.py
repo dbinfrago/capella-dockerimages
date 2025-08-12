@@ -6,6 +6,7 @@ import pathlib
 import subprocess
 import typing as t
 import urllib.request
+from urllib import error as urllib_error
 
 import yaml
 
@@ -157,9 +158,13 @@ def install_update_sites(
 
 
 def download_and_copy_dropin(download_url: str, file_name: str) -> None:
-    urllib.request.urlretrieve(
-        download_url, pathlib.Path("/opt/capella/dropins") / file_name
-    )
+    try:
+        urllib.request.urlretrieve(
+            download_url, pathlib.Path("/opt/capella/dropins") / file_name
+        )
+    except urllib_error.URLError:
+        print(f"Error downloading {file_name} from {download_url}.")
+        raise
 
 
 if __name__ == "__main__":

@@ -68,7 +68,7 @@ def validate_eclipse_archive(
             eclipse_version,
             build_architecture.value,
             formatting.build_rich_link(
-                link="https://dsd-dbs.github.io/capella-dockerimages/eclipse/base/#download-eclipse",
+                link="https://dbinfrago.github.io/capella-dockerimages/eclipse/base/#download-eclipse",
                 text="documentation",
             ),
         )
