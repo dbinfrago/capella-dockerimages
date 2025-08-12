@@ -59,7 +59,7 @@ nav:
       - 'pure::variants': pure-variants.md
   - Remote: remote.md
 
-repo_url: https://github.com/DSD-DBS/capella-dockerimages
+repo_url: https://github.com/dbinfrago/capella-dockerimages
 edit_uri: edit/master/docs/docs
 
 hooks:

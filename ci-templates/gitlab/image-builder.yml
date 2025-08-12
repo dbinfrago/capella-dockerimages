@@ -54,7 +54,7 @@ variables:
     value: 'main'
     description:
       'Revision of the Capella Docker images Github repository
-      (https://github.com/DSD-DBS/capella-dockerimages)'
+      (https://github.com/dbinfrago/capella-dockerimages)'
   CAPELLA_VERSION:
     value: '6.0.0'
     options: ['5.0.0', '5.2.0', '6.0.0', '6.1.0', '7.0.0']
@@ -98,7 +98,7 @@ default:
     - docker
 
 .github: &github
-  - git clone https://github.com/DSD-DBS/capella-dockerimages.git
+  - git clone https://github.com/dbinfrago/capella-dockerimages.git
   - cd capella-dockerimages
   - git checkout $CAPELLA_DOCKER_IMAGES_REVISION --
 

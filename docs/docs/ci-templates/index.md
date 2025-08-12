@@ -26,4 +26,4 @@ And the following Github CI/CD actions:
 
 We offer more templates as part of our `py-capellambse` project. Please have a
 look
-[here](https://github.com/DSD-DBS/py-capellambse/tree/master/ci-templates/gitlab).
+[here](https://github.com/dbinfrago/py-capellambse/tree/master/ci-templates/gitlab).

@@ -22,7 +22,7 @@ inputs:
   capella_docker_images_dropins:
     description:
       'Please have a look at
-      https://dsd-dbs.github.io/capella-dockerimages/capella/introduction/#supported-dropins'
+      https://dbinfrago.github.io/capella-dockerimages/capella/introduction/#supported-dropins'
     required: false
     default: selected
   push_diagram_cache:
@@ -43,7 +43,7 @@ runs:
       # prettier-ignore
       run:
         uv pip install
-          "capellambse[cli]@git+https://github.com/DSD-DBS/py-capellambse.git@${{ inputs.capellambse_revision }}"
+          "capellambse[cli]@git+https://github.com/dbinfrago/py-capellambse.git@${{ inputs.capellambse_revision }}"
     - name: Generate diagram cache
       shell: bash
       # prettier-ignore
@@ -52,7 +52,7 @@ runs:
           --model "${{ inputs.entry_point }}" \
           --output ./diagram_cache \
           --index \
-          --docker "ghcr.io/dsd-dbs/capella-dockerimages/capella/base:{VERSION}-${{ inputs.capella_docker_images_dropins }}-dropins-${{ inputs.capella_docker_images_revision }}"
+          --docker "ghcr.io/dbinfrago/capella-dockerimages/capella/base:{VERSION}-${{ inputs.capella_docker_images_dropins }}-dropins-${{ inputs.capella_docker_images_revision }}"
     - name: Push diagram cache to orphan branch
       shell: bash
       run: |

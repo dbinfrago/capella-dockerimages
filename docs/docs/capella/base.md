@@ -25,7 +25,7 @@ for Capella client) that can be run headless (as command line interface).
 ## Use the prebuilt image
 
 ```
-docker run ghcr.io/dsd-dbs/capella-dockerimages/capella/base:$TAG
+docker run ghcr.io/dbinfrago/capella-dockerimages/capella/base:$TAG
 ```
 
 where `$TAG` is the Docker tag. For more information, have a look at our

@@ -26,6 +26,6 @@ if [ -x "$INSTALL_PYTHON" ]; then
 elif command -v pre-commit > /dev/null; then
     exec pre-commit "${ARGS[@]}"
 else
-    echo '`pre-commit` not found. Please report this error: https://github.com/DSD-DBS/capella-dockerimages/issues' 1>&2
+    echo '`pre-commit` not found. Please report this error: https://github.com/dbinfrago/capella-dockerimages/issues' 1>&2
     exit 1
 fi

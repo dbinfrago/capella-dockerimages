@@ -21,9 +21,9 @@ dropins:
     installIU:
       - 'org.polarsys.capella.filtering.feature.feature.group'
   ModelsImporter:
-    github: 'https://github.com/DSD-DBS/capella-addons'
+    github: 'https://github.com/dbinfrago/capella-addons'
     type: dropin
-    downloadURL: 'https://github.com/DSD-DBS/capella-addons/releases/download/v0.0.1/com.deutschebahn.models-from-directory-importer_0.0.1_capella_6.x.jar'
+    downloadURL: 'https://github.com/dbinfrago/capella-addons/releases/download/v0.0.1/com.deutschebahn.models-from-directory-importer_0.0.1_capella_6.x.jar'
     fileName: 'com.deutschebahn.models-from-directory-importer_0.0.1_capella_6.x.jar'
   PVMT:
     github: 'https://github.com/eclipse/capella/wiki/PVMT'
