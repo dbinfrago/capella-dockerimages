@@ -60,11 +60,11 @@ def validate_dropins(
                 dropin,
                 capella_version,
                 formatting.build_rich_link(
-                    link="https://github.com/DSD-DBS/capella-dockerimages/blob/main/capella/versions/7.0.0/dropins.yml",
+                    link="https://github.com/dbinfrago/capella-dockerimages/blob/main/capella/versions/7.0.0/dropins.yml",
                     text="list of dropins",
                 ),
                 formatting.build_rich_link(
-                    link="https://github.com/DSD-DBS/capella-dockerimages/issues",
+                    link="https://github.com/dbinfrago/capella-dockerimages/issues",
                     text="GitHub issue",
                 ),
                 capella_version,
@@ -104,7 +104,7 @@ def validate_capella_archive(
                 capella_version,
                 build_architecture.value,
                 formatting.build_rich_link(
-                    link="https://dsd-dbs.github.io/capella-dockerimages/capella/base/#optional-download-capella-manually",
+                    link="https://dbinfrago.github.io/capella-dockerimages/capella/base/#optional-download-capella-manually",
                     text="documentation",
                 ),
             )
@@ -132,7 +132,7 @@ def validate_t4c_archive(*, t4c_client: bool, capella_version: str) -> None:
                 " More information how to download the TeamForCapella archive is available in our %s",
                 capella_version,
                 formatting.build_rich_link(
-                    link="https://dsd-dbs.github.io/capella-dockerimages/capella/t4c/base/#download-teamforcapella-bundle",
+                    link="https://dbinfrago.github.io/capella-dockerimages/capella/t4c/base/#download-teamforcapella-bundle",
                     text="documentation",
                 ),
             )
@@ -156,7 +156,7 @@ def validate_pv_archive(
                 " More information how to download the pure::variants archive is available in our %s.",
                 pure_variants_version,
                 formatting.build_rich_link(
-                    link="https://dsd-dbs.github.io/capella-dockerimages/pure-variants/#download-the-purevariants-archive",
+                    link="https://dbinfrago.github.io/capella-dockerimages/pure-variants/#download-the-purevariants-archive",
                     text="documentation",
                 ),
             )
@@ -330,7 +330,7 @@ def capella(
             " otherwise the Capella client will be downloaded each time!"
             "\nMore information in the %s.",
             formatting.build_rich_link(
-                link="https://dsd-dbs.github.io/capella-dockerimages/capella/base/#optional-download-capella-manually",
+                link="https://dbinfrago.github.io/capella-dockerimages/capella/base/#optional-download-capella-manually",
                 text="documentation",
             ),
         )
