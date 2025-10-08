@@ -47,7 +47,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
       - name: Install uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v7
       - name: Login to github container registry
         uses: docker/login-action@v3
         with:
