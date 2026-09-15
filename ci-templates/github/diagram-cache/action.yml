@@ -12,9 +12,11 @@ inputs:
   entry_point:
     description: 'The entry point of the used model'
   capellambse_revision:
-    description: 'The revision of the py-capellambse package to install'
+    description: 'The revision of the py-capellambse package to install.
+
+      Specify a Github branch name, or leave empty/unset to use the latest PyPI release.'
     required: false
-    default: master
+    default: ''
   capella_docker_images_revision:
     description: 'The revision of capella-dockerimages to use'
     required: false
@@ -40,10 +42,17 @@ runs:
         activate-environment: true
     - name: Install capellambse
       shell: bash
+      env:
+        CAPELLAMBSE_REVISION: ${{ inputs.capellambse_revision }}
       # prettier-ignore
-      run:
-        uv pip install
-          "capellambse[cli]@git+https://github.com/dbinfrago/py-capellambse.git@${{ inputs.capellambse_revision }}"
+      run: |-
+        if [[ -z "$CAPELLAMBSE_REVISION" ]]; then
+          echo "Installing latest release from PyPI"
+          pip install "capellambse[cli]"
+        else
+          echo "Installing from Github: ${CAPELLAMBSE_REVISION}"
+          pip install "capellambse[cli] @ git+https://github.com/dbinfrago/py-capellambse.git@${CAPELLAMBSE_REVISION}"
+        fi
     - name: Generate diagram cache
       shell: bash
       # prettier-ignore

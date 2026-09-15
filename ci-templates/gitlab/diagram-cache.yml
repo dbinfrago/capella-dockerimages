@@ -11,8 +11,15 @@ update_capella_diagram_cache:
   script:
     - python -m venv /tmp/.venv
     - source /tmp/.venv/bin/activate
-    - pip install
-      "capellambse[cli]@git+https://github.com/dbinfrago/py-capellambse.git@${CAPELLAMBSE_REVISION}"
+    - |-
+      # Install capellambse
+      if [[ -z "$CAPELLAMBSE_REVISION" ]]; then
+        echo "Installing latest release from PyPI"
+        pip install "capellambse[cli]"
+      else
+        echo "Installing from Github: ${CAPELLAMBSE_REVISION}"
+        pip install "capellambse[cli] @ git+https://github.com/dbinfrago/py-capellambse.git@${CAPELLAMBSE_REVISION}"
+      fi
     - mkdir diagram_cache
     - xvfb-run python -m capellambse.diagram_cache --model "${ENTRYPOINT}"
       --output ./diagram_cache --index --exe "/opt/capella/capella"
@@ -46,8 +53,8 @@ update_capella_diagram_cache:
     COMMIT_MSG: 'chore: Update diagram cache'
 
     # The revision of the py-capellambse package to install
-    # Defaults to "master" if not defined
-    CAPELLAMBSE_REVISION: 'master'
+    # Specify a Github branch name, or leave empty/unset to use the latest PyPI release
+    CAPELLAMBSE_REVISION: ''
 
     # Relative entrypoint to .aird file inside repository (starting from the root of the repository).
     # Example: test/test.aird
