@@ -13,6 +13,8 @@ Currently, we provide the following Gitlab CI/CD templates:
   using the merge strategy
 - [Diagram cache](./gitlab/diagram-cache.md): Export diagrams of a Capella
   model and store them in Gitlab artifacts
+- [Papyrus diagram cache](./gitlab/papyrus-diagram-cache.md): Export diagrams
+  and tables of a Papyrus model and store them in Gitlab artifacts
 - [Image builder](#image-builder): Build and push all Docker images to any
   Docker registry.
 - [Model validation](#model-validation): Runs the Capella model validation CLI

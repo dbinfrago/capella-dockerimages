@@ -72,7 +72,7 @@ variables:
     value: 'python-3.11'
     description: 'Python version for the jupyter notebook.'
   PAPYRUS_VERSION:
-    value: '6.4.0'
+    value: '7.1.0'
     description: 'Semantic version of Papyrus.'
   ECLIPSE_VERSION:
     value: '4.27'

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+
+<!--
+ ~ SPDX-FileCopyrightText: Copyright DB InfraGO AG and contributors
+ ~ SPDX-License-Identifier: Apache-2.0
+ -->
+
+<plugin>
+   <extension
+         id="export"
+         point="org.eclipse.core.runtime.applications">
+      <application
+            cardinality="singleton-global"
+            thread="main"
+            visible="true">
+         <run
+               class="org.dbinfrago.papyrus.diagramcache.ExportApplication">
+         </run>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.gmf.runtime.diagram.ui.editpartProviders">
+      <editpartProvider
+            class="org.dbinfrago.papyrus.diagramcache.DiagramFrameEditPartProvider">
+         <Priority
+               name="Highest">
+         </Priority>
+         <object
+               class="org.eclipse.gmf.runtime.notation.Node(org.eclipse.gmf.runtime.notation)"
+               id="PapyrusDiagramFrame">
+            <method
+                  name="getType()"
+                  value="PapyrusDiagramFrame">
+            </method>
+         </object>
+         <context
+               views="PapyrusDiagramFrame">
+         </context>
+      </editpartProvider>
+   </extension>
+</plugin>
