@@ -11,7 +11,7 @@ dropins:
   DiagramStyler:
     github: 'https://github.com/eclipse/capella/wiki/PVMT'
     type: updateSite
-    eclipseRepository: 'jar:https://artifactory.thalesdigital.io/ui/api/v1/download?repoKey=mvn-public&path=com%252Fthalesgroup%252Fmde%252Fcapella%252Fdiagramstyler%252Fcom.thalesgroup.mde.capella.diagramstyler.repository%252F70.3.1%252Fcom.thalesgroup.mde.capella.diagramstyler.repository-70.3.1.zip!/'
+    eclipseRepository: 'jar:https://github.com/labs4capella/pvmt-releases/releases/download/70.7.0-70.3.1/com.thalesgroup.mde.capella.diagramstyler.repository-70.3.1.zip!/'
     installIU:
       - 'com.thalesgroup.mde.capella.diagramstyler.feature.feature.group'
   Filtering:
@@ -28,7 +28,7 @@ dropins:
   PVMT:
     github: 'https://github.com/eclipse/capella/wiki/PVMT'
     type: updateSite
-    eclipseRepository: 'jar:https://artifactory.thalesdigital.io/ui/api/v1/download?repoKey=mvn-public&path=com%252Fthalesgroup%252Fvpd%252Fproperty%252Fcom.thalesgroup.vpd.property.repository%252F70.7.0%252Fcom.thalesgroup.vpd.property.repository-70.7.0.zip!/'
+    eclipseRepository: 'jar:https://github.com/labs4capella/pvmt-releases/releases/download/70.7.0-70.3.1/com.thalesgroup.vpd.property.repository-70.7.0.zip!/'
     installIU:
       - 'com.thalesgroup.vpd.property.feature.feature.group'
   Requirements:
