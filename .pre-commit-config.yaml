@@ -40,6 +40,7 @@ repos:
         name: Mypy (Standalone scripts)
         exclude: '^(?:cli|t4c)/'
         additional_dependencies: &mypy-dependencies
+          - click
           - python-dotenv
           - rich
           - typer
