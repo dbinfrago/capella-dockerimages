@@ -22,7 +22,7 @@ RUN mkdir /tmp/pure-variants && \
 USER techuser
 
 RUN installUI=com.ps.consul.eclipse.purevariants.emf.feature.mapping.feature.group,com.ps.consul.eclipse.purevariants.de.enterprise.feature.group; \
-    if [ "$BASE_TYPE" == "capella" ]; then installUI="com.ps.consul.eclipse.purevariants.capella.feature.group,$installUI"; fi; \
+    if [ "$BASE_TYPE" = "capella" ]; then installUI="com.ps.consul.eclipse.purevariants.capella.feature.group,$installUI"; fi; \
     ${ECLIPSE_EXECUTABLE:?} \
     -consoleLog \
     -application org.eclipse.equinox.p2.director \
@@ -33,7 +33,7 @@ RUN installUI=com.ps.consul.eclipse.purevariants.emf.feature.mapping.feature.gro
 
 USER root
 # hadolint ignore=SC2086
-RUN if [ "$BASE_TYPE" == "capella" ]; \
+RUN if [ "$BASE_TYPE" = "capella" ]; \
     then chmod +x ${ECLIPSE_INSTALLATION_PATH:?}/plugins/com.ps.consul.eclipse.core.linux_*/server/bin/variantsd && \
     chmod +x ${ECLIPSE_INSTALLATION_PATH:?}/plugins/com.ps.consul.eclipse.core.linux_*/server/bin/finishInstallation.sh; \
     fi; \

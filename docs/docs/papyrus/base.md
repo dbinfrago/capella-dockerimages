@@ -19,6 +19,11 @@ customised prior to building the Docker image.
 The image has been tested with the following versions:
 
 - 6.4.0 (2023-03 release)
+- 7.1.0 (2025-06 release, default)
+
+Papyrus 7.x images additionally contain the headless
+[Papyrus diagram cache](../ci-templates/gitlab/papyrus-diagram-cache.md)
+exporter (`papyrus-diagram-cache`) and `xvfb-run`.
 
 The only supported build architecture is amd64. To build and run the image on
 other build architectures, use QEMU or Rosetta.
@@ -43,8 +48,14 @@ the end result is either
 
 - `papyrus/versions/$PAPYRUS_VERSION/papyrus.tar.gz`.
 
-where `PAPYRUS_VERSION` refers to the semantic version of Papyrus, e.g. `6.4.0`
-for the 2023-03 release.
+where `PAPYRUS_VERSION` refers to the semantic version of Papyrus, e.g. `7.1.0`
+for the 2025-06 release.
+
+Papyrus 7.x archives are named
+`papyrus-desktop-<release>-<version>-linux.gtk.x86_64.tar.gz` and have to be
+renamed. For 7.1.0, download
+<https://download.eclipse.org/modeling/mdt/papyrus/papyrus-desktop/rcp/2025-06/7.1.0/papyrus-desktop-2025-06-7.1.0-linux.gtk.x86_64.tar.gz>
+and save it as `papyrus/versions/7.1.0/papyrus.tar.gz`.
 
 #### Optional: Customisation of the Papyrus client
 

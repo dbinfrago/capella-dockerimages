@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: Copyright DB InfraGO AG and contributors
+# SPDX-License-Identifier: Apache-2.0
+
+variables:
+  CAPELLA_DOCKER_IMAGES_REVISION: main
+
+update_papyrus_diagram_cache:
+  image:
+    name: $DOCKER_REGISTRY/papyrus/base:${PAPYRUS_DOCKER_IMAGES_TAG}
+    entrypoint: ['']
+  script:
+    - mkdir diagram_cache
+    - xvfb-run papyrus-diagram-cache --model "${ENTRYPOINT}"
+      --output ./diagram_cache --index --exe "/opt/Papyrus/papyrus"
+    - |
+      if [[ "${PUSH_DIAGRAM_CACHE}" == "false" ]]; then
+        exit 0
+      fi
+      DERIVED_BRANCH_NAME="diagram-cache/${CI_COMMIT_REF_NAME}"
+      git switch --orphan "${DERIVED_BRANCH_NAME}"
+      git add -f diagram_cache
+      git commit -m "${COMMIT_MSG} for ${CI_COMMIT_SHORT_SHA}"
+      git push -o ci.skip --set-upstream origin ${DERIVED_BRANCH_NAME} --force
+  artifacts:
+    paths:
+      - 'diagram_cache'
+  variables:
+    # Virtual display used to run Papyrus in the background.
+    # Do not modify the value!
+    DISPLAY: ':99'
+
+    # Docker tag, which is used for the papyrus/base image.
+    # Defaults to ${PAPYRUS_VERSION}-${CAPELLA_DOCKER_IMAGES_REVISION} if not defined
+    PAPYRUS_DOCKER_IMAGES_TAG: ${PAPYRUS_VERSION}-${CAPELLA_DOCKER_IMAGES_REVISION}
+
+    # Whether to push the diagram cache changes or not
+    # Defaults to false if not defined
+    PUSH_DIAGRAM_CACHE: 'false'
+
+    # The commit message used for updating the diagram cache
+    # Defaults to "chore: Update diagram cache" if not defined
+    COMMIT_MSG: 'chore: Update diagram cache'
+
+    # Relative path to the .di file inside the repository (starting from the root of the repository).
+    # The .di file or one of its parent directories must contain the Eclipse .project file.
+    # Example: model/model.di
+    # ENTRYPOINT: ${ENTRYPOINT}
+
+    # Semantic Papyrus version (x.x.x) >= 7.0.0
+    # PAPYRUS_VERSION: 7.1.0
