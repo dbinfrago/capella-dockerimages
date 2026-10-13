@@ -31,6 +31,7 @@ nav:
       - Index: ci-templates/index.md
       - Gitlab:
           - Diagram cache: ci-templates/gitlab/diagram-cache.md
+          - Papyrus diagram cache: ci-templates/gitlab/papyrus-diagram-cache.md
           - Release train: ci-templates/gitlab/release-train.md
           - Image builder: ci-templates/gitlab/image-builder.md
           - Model validation: ci-templates/gitlab/model-validation.md

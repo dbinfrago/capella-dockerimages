@@ -27,7 +27,7 @@ def papyrus(
     uid: base_args.UIDOption = base_args.UID_OPTION_DEFAULT,
     push: args.PushOption = False,
     no_cache: args.NoCacheOption = False,
-    papyrus_version: papyrus_args.PapyrusVersionOption = "6.4.0",
+    papyrus_version: papyrus_args.PapyrusVersionOption = "7.1.0",
     remote: args.RemoteOption = True,
     detach: args.RunDetachedOption = False,
     root: args.RunAsRootOption = False,
