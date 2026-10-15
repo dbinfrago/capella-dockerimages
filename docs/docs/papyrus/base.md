@@ -30,7 +30,13 @@ other build architectures, use QEMU or Rosetta.
 
 ## Use the prebuilt image
 
-The Papyrus image is not available as prebuilt image yet.
+```
+docker run ghcr.io/dbinfrago/capella-dockerimages/papyrus/base:$TAG
+```
+
+where `$TAG` is `$PAPYRUS_VERSION-$CAPELLA_DOCKER_IMAGES_REVISION`, e.g.
+`7.1.0-main`. In `$CAPELLA_DOCKER_IMAGES_REVISION`, characters matching
+`[^a-zA-Z0-9.]` are replaced with `-`. Only Papyrus 7.1.0 is prebuilt.
 
 ## Build it yourself
 

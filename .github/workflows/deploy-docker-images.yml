@@ -85,3 +85,47 @@ jobs:
             --label "git-short-sha=${{ steps.tag.outputs.sha }}" \
             --verbose \
             --push
+  deploy-papyrus-image:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        papyrus:
+          - version: '7.1.0'
+            release: '2025-06'
+            sha512: '33a64e8ebf169bdca09b53d61c14c0b23ee2d224d9ecc4b68d4fc41f90fddec4581df3c7f5cfd16df334bd534c8f62e9460d73c302c6a270bf12b52b7b3f0c19'
+    name: Papyrus ${{ matrix.papyrus.version }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+      - name: Login to github container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set outputs
+        id: tag
+        run: |
+          echo "branch=$(echo $GITHUB_REF_NAME | sed 's/[^a-zA-Z0-9.]/-/g')" >> "$GITHUB_OUTPUT"
+          echo "sha=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Install CDI CLI
+        run: uv venv && uv pip install -e ./cli
+      - name: Download Papyrus
+        env:
+          ARCHIVE: papyrus/versions/${{ matrix.papyrus.version }}/papyrus.tar.gz
+        run: |
+          curl -fsSL --retry 3 -o "$ARCHIVE" \
+            'https://mirror.umd.edu/eclipse/modeling/mdt/papyrus/papyrus-desktop/rcp/${{ matrix.papyrus.release }}/${{ matrix.papyrus.version }}/papyrus-desktop-${{ matrix.papyrus.release }}-${{ matrix.papyrus.version }}-linux.gtk.x86_64.tar.gz'
+          echo "${{ matrix.papyrus.sha512 }}  $ARCHIVE" | sha512sum -c -
+      - name: Build Papyrus (Base)
+        run: >
+          uv run cdi build papyrus \
+            --no-remote \
+            --papyrus-version "${{ matrix.papyrus.version }}" \
+            --image-prefix "${{ env.REGISTRY }}" \
+            --image-tag "{papyrus_version}-${{ steps.tag.outputs.branch }}" \
+            --label "git-short-sha=${{ steps.tag.outputs.sha }}" \
+            --verbose \
+            --push

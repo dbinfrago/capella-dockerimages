@@ -41,7 +41,8 @@ In addition, you have to add the following environment variables on repository
 level. Make sure to enable the "Expand variable reference" flag.
 
 - `CAPELLA_DOCKER_IMAGES_REVISION`: Revision of this Github repository
-- `DOCKER_REGISTRY`: Registry that contains the `papyrus/base` image
+- `DOCKER_REGISTRY`: Registry that contains the `papyrus/base` image, e.g.
+  `ghcr.io/dbinfrago/capella-dockerimages` for the prebuilt image
 
 Set `PUSH_DIAGRAM_CACHE: "true"` to push the cache to the orphan branch
 `diagram-cache/<branch>`. The job exits with an error if one or more diagrams
