@@ -12,6 +12,8 @@ on:
 env:
   COLUMNS: 120
   REGISTRY: ghcr.io/dbinfrago/capella-dockerimages/
+  # Dependabot runs get a read-only GITHUB_TOKEN and can't write packages
+  PUSH_IMAGES: ${{ github.actor != 'dependabot[bot]' }}
 
 jobs:
   lint:
@@ -72,8 +74,7 @@ jobs:
             --image-tag "{capella_version}-${{ matrix.dropins.name }}-dropins-${{ steps.tag.outputs.branch }}" \
             --capella-dropins "${{ matrix.dropins.dropins }}" \
             --label "git-short-sha=${{ steps.tag.outputs.sha }}" \
-            --verbose \
-            --push
+            --verbose
       - name: Build Capella (Remote)
         run: >
           uv run cdi build capella \
@@ -83,8 +84,7 @@ jobs:
             --image-prefix "${{ env.REGISTRY }}" \
             --image-tag "{capella_version}-${{ matrix.dropins.name }}-dropins-${{ steps.tag.outputs.branch }}" \
             --label "git-short-sha=${{ steps.tag.outputs.sha }}" \
-            --verbose \
-            --push
+            --verbose
   deploy-papyrus-image:
     runs-on: ubuntu-latest
     strategy:
@@ -127,5 +127,4 @@ jobs:
             --image-prefix "${{ env.REGISTRY }}" \
             --image-tag "{papyrus_version}-${{ steps.tag.outputs.branch }}" \
             --label "git-short-sha=${{ steps.tag.outputs.sha }}" \
-            --verbose \
-            --push
+            --verbose
