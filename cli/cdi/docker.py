@@ -10,6 +10,7 @@ import random
 import shutil
 import string
 import subprocess
+import time
 import typing as t
 
 import typer
@@ -187,6 +188,9 @@ def run_container(
     )
 
 
+PUSH_ATTEMPTS = 3
+
+
 def push_image(
     image_name: str,
 ) -> None:
@@ -200,7 +204,26 @@ def push_image(
             f"[yellow]Pushing Docker image '{image_name}'[/yellow]"
         )
 
-        run_docker_subprocess(["push", image_name])
+        # Concurrent pushes of shared layers into the same registry
+        # repository can fail transiently (e.g. GHCR "unknown blob").
+        # Pushes are idempotent, so retry with a short backoff.
+        for attempt in range(1, PUSH_ATTEMPTS + 1):
+            try:
+                run_docker_subprocess(["push", image_name])
+                break
+            except typer.Exit:
+                if attempt == PUSH_ATTEMPTS:
+                    raise
+                delay = 10 * attempt
+                log.warning(
+                    "Pushing Docker image '%s' failed (attempt %d/%d), "
+                    "retrying in %ds...",
+                    image_name,
+                    attempt,
+                    PUSH_ATTEMPTS,
+                    delay,
+                )
+                time.sleep(delay)
     log.info("Successfully pushed Docker image '%s'", image_name)
 
 
