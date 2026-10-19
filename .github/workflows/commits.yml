@@ -11,7 +11,7 @@ jobs:
   conventional-commits:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Install commitlint
@@ -30,7 +30,7 @@ jobs:
           exit $r
       - name: Post comment if validation failed
         if: always() && steps.conventional-commits.outcome == 'failure'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           TEXT: |-
             The pull request does not conform to the conventional commit specification. Please ensure that your commit messages follow the spec: <https://www.conventionalcommits.org/>.
