@@ -15,6 +15,10 @@ as SVG files. It uses the [Papyrus base image](../../papyrus/base.md) (Papyrus
 - Papyrus tables are rendered from their definition in the `.notation` file
   (visible columns and rows, column widths).
 
+GMF diagrams are exported reproducibly: an unchanged diagram yields a
+byte-identical SVG, so tools that compare SVGs (e.g. to sync them to Polarion)
+only see diagrams whose content changed.
+
 `index.json` is a list of entries with the keys `uuid`, `format`, `name`,
 `type`, `viewpoint` (top-level package of the owner), `success`, `kind`
 (`gmf`, `table` or `sirius`) and `owner` (`xmi:id` of the owning model

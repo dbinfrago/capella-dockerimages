@@ -206,7 +206,7 @@ public class ExportApplication implements IApplication {
             }
         }
         System.out.println("found " + diagrams.size() + " GMF diagrams to export");
-        CopyToImageUtil copier = new CopyToImageUtil();
+        CopyToImageUtil copier = new DeterministicCopyToImageUtil();
         for (Diagram diagram : diagrams) {
             String uuid = notation.getURIFragment(diagram);
             IPath target = org.eclipse.core.runtime.Path.fromOSString(
