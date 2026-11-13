@@ -84,7 +84,9 @@ The tree inside of your Gitlab repository should look like:
 │           └── updateSite
 ├── papyrus
 │   └── versions
-│       └── 6.4.0
+│       └── 7.1.0
+│           ├── dropins
+│           ├── dropins.overwrites.yml (optional)
 │           └── papyrus.tar.gz
 └── pure-variants
     ├── dependencies

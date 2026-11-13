@@ -10,6 +10,10 @@ from urllib import error as urllib_error
 
 import yaml
 
+# Set by the Dockerfile that runs this script.
+ECLIPSE_INSTALLATION_PATH = pathlib.Path(os.environ["ECLIPSE_INSTALLATION_PATH"])
+ECLIPSE_EXECUTABLE = os.environ["ECLIPSE_EXECUTABLE"]
+
 
 def load_dropins() -> dict[str, t.Any]:
     dropins_path = pathlib.Path("/opt/dropins.yml")
@@ -28,7 +32,7 @@ def load_dropins() -> dict[str, t.Any]:
 
 
 def extract_repositories_and_install_ius(dropins: dict[str, t.Any]) -> None:
-    dropins_to_install = os.getenv("CAPELLA_DROPINS", "").split(",") + [
+    dropins_to_install = os.getenv("DROPINS", "").split(",") + [
         dropin[0] for dropin in dropins.items() if dropin[1].get("autouse")
     ]
 
@@ -111,7 +115,7 @@ def install_update_sites(
         vm_args = ["-vmargs", "-Declipse.p2.mirrors=false"]
 
     command = [
-        "/opt/capella/capella",
+        ECLIPSE_EXECUTABLE,
         "-consoleLog",
         "-application",
         "org.eclipse.equinox.p2.director",
@@ -131,7 +135,7 @@ def install_update_sites(
 
     process = subprocess.Popen(
         [
-            "/opt/capella/capella",
+            ECLIPSE_EXECUTABLE,
             "-consoleLog",
             "-application",
             "org.eclipse.equinox.p2.director",
@@ -160,7 +164,7 @@ def install_update_sites(
 def download_and_copy_dropin(download_url: str, file_name: str) -> None:
     try:
         urllib.request.urlretrieve(
-            download_url, pathlib.Path("/opt/capella/dropins") / file_name
+            download_url, ECLIPSE_INSTALLATION_PATH / "dropins" / file_name
         )
     except urllib_error.URLError:
         print(f"Error downloading {file_name} from {download_url}.")

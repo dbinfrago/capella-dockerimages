@@ -29,6 +29,15 @@ SkipPapyrusImageOption = t.Annotated[
     ),
 ]
 
+PapyrusDropinsOption = t.Annotated[
+    str,
+    typer.Option(
+        help="Comma-separated list of dropins to install in the Papyrus client",
+        envvar="PAPYRUS_DROPINS",
+        rich_help_panel=PAPYRUS_OPTIONS,
+    ),
+]
+
 AutostartPapyrusOption = t.Annotated[
     bool,
     typer.Option(

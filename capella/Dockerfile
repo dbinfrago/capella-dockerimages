@@ -77,6 +77,9 @@ RUN chmod +x capella/capella && \
 COPY patch.sh /opt/patch.sh
 RUN chmod +x /opt/patch.sh
 
+ENV ECLIPSE_INSTALLATION_PATH=/opt/capella
+ENV ECLIPSE_EXECUTABLE=/opt/capella/capella
+
 # Install Dropins for Capella
 USER techuser
 
@@ -96,7 +99,7 @@ COPY ./versions/${CAPELLA_VERSION}/patches /opt/patches
 USER root
 RUN chown -R techuser /opt/patches \
     && PATCH_DIR=/opt/patches /opt/patch.sh \
-    && python install_dropins.py
+    && DROPINS="$CAPELLA_DROPINS" python install_dropins.py
 
 # Eclipse settings
 RUN mkdir -p /opt/capella/configuration/.settings; \
@@ -118,9 +121,6 @@ COPY setup/* /opt/setup/
 ENV AUTOSTART_CAPELLA=1
 ENV RESTART_CAPELLA=1
 COPY ./autostart /home/techuser/.config/openbox/autostart
-
-ENV ECLIPSE_INSTALLATION_PATH=/opt/capella
-ENV ECLIPSE_EXECUTABLE=/opt/capella/capella
 
 # Set memory options for the JVM (used by set_memory_flags.py)
 ARG MEMORY_MAX=90%

@@ -30,6 +30,12 @@ pure-variants/dependencies/*
 
 # Papyrus
 papyrus/versions/*/papyrus.tar.gz
+papyrus/versions/*/dropins/*
+!papyrus/versions/*/dropins/.gitkeep
+papyrus/versions/*/dropins.overwrites.yml
+papyrus/versions/*/patches/*
+!papyrus/versions/*/patches/.gitkeep
+papyrus/install_dropins.py
 
 # Eclipse
 eclipse/versions/*/*/eclipse.tar.gz

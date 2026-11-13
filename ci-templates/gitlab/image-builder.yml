@@ -74,6 +74,9 @@ variables:
   PAPYRUS_VERSION:
     value: '7.1.0'
     description: 'Semantic version of Papyrus.'
+  PAPYRUS_DROPINS:
+    value: ''
+    description: 'Comma-separated list of dropins to install in Papyrus.'
   ECLIPSE_VERSION:
     value: '4.27'
     description: 'Semantic version of Eclipse.'
@@ -418,12 +421,31 @@ papyrus/base:
     - *docker
     - mv ../papyrus.tar.gz ./papyrus/versions/$PAPYRUS_VERSION/papyrus.tar.gz
     - cp ./eclipse/set_memory_flags.py ./papyrus/set_memory_flags.py
+    - cp ./capella/install_dropins.py ./papyrus/install_dropins.py
+    - |
+      if [[ -f ../dropins.overwrites.yml ]]; then
+        mv ../dropins.overwrites.yml ./papyrus/versions/$PAPYRUS_VERSION/dropins.overwrites.yml
+      fi
+    - |
+      if [[ -n "$(find ../dropins -maxdepth 1 -type f -not -path '*/\.*' 2>/dev/null)" ]]; then
+        mv ../dropins/* ./papyrus/versions/$PAPYRUS_VERSION/dropins/
+      else
+        echo "No files to move in dropins"
+      fi
+    - >
+      if [[ -n "$(find ../patches -maxdepth 1 -type f -not -path '*/\.*')" ]];
+      then
+        mv ../patches/* ./papyrus/versions/$PAPYRUS_VERSION/patches/
+      else
+        echo "No files to move in patches"
+      fi
     - |
       docker build $DOCKER_BUILD_ARGS \
         -t ${IMAGE}:${DOCKER_TAG} \
         --build-arg ECLIPSE_REPOSITORY=${ECLIPSE_REPOSITORY} \
         --build-arg PAPYRUS_VERSION=$PAPYRUS_VERSION \
         --build-arg BASE_IMAGE=$BASE_IMAGE \
+        --build-arg PAPYRUS_DROPINS="$PAPYRUS_DROPINS" \
         papyrus
     - *push
 

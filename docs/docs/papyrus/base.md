@@ -34,9 +34,12 @@ other build architectures, use QEMU or Rosetta.
 docker run ghcr.io/dbinfrago/capella-dockerimages/papyrus/base:$TAG
 ```
 
-where `$TAG` is `$PAPYRUS_VERSION-$CAPELLA_DOCKER_IMAGES_REVISION`, e.g.
-`7.1.0-main`. In `$CAPELLA_DOCKER_IMAGES_REVISION`, characters matching
-`[^a-zA-Z0-9.]` are replaced with `-`. Only Papyrus 7.1.0 is prebuilt.
+where `$TAG` is
+`$PAPYRUS_VERSION-$DROPINS-dropins-$CAPELLA_DOCKER_IMAGES_REVISION`, e.g.
+`7.1.0-without-dropins-main` or `7.1.0-selected-dropins-main`. The `selected`
+images contain all [supported dropins](#supported-dropins). In
+`$CAPELLA_DOCKER_IMAGES_REVISION`, characters matching `[^a-zA-Z0-9.]` are
+replaced with `-`. Only Papyrus 7.1.0 is prebuilt.
 
 ## Build it yourself
 
@@ -63,19 +66,51 @@ renamed. For 7.1.0, download
 <https://download.eclipse.org/modeling/mdt/papyrus/papyrus-desktop/rcp/2025-06/7.1.0/papyrus-desktop-2025-06-7.1.0-linux.gtk.x86_64.tar.gz>
 and save it as `papyrus/versions/7.1.0/papyrus.tar.gz`.
 
+#### Optional: Install dropins
+
+Dropins work the same way as for [Capella](../capella/base.md#install-dropins):
+
+- Dropins registered in `papyrus/versions/$PAPYRUS_VERSION/dropins.yml` (or in a
+  `dropins.overwrites.yml` next to it, same schema) are installed when passed
+  as a comma-separated list in the `PAPYRUS_DROPINS` build argument, or
+  always if `autouse` is enabled.
+- Plain bundle `.jar` files placed in
+  `papyrus/versions/$PAPYRUS_VERSION/dropins` are copied into the `dropins`
+  directory of the Papyrus client without further processing.
+
+##### Supported dropins
+
+Supported dropins are:
+
+- [EulynxSpecification](https://github.com/dbinfrago/eulynx-papyrus-plugin)
+  (Papyrus 7.1.0)
+
+The dropins are registered in the
+`papyrus/versions/$PAPYRUS_VERSION/dropins.yml` file. If you're missing a
+dropin in the list, feel free to open a PR.
+
+Local `.zip` update sites referenced by a dropin are resolved from
+`papyrus/versions/$PAPYRUS_VERSION/patches`, like for Capella.
+
+Dropins are also available to the headless diagram cache exporter, e.g. to
+render shapes contributed by a modelling add-on.
+
 #### Optional: Customisation of the Papyrus client
 
-To customise the Papyrus client you can
+To customise the Papyrus client otherwise you can
 
 1. extract the downloaded archive,
-1. apply any modifications (e.g., installation of plugins and/ or dropins) to
-   it, and
+1. apply any modifications to it, and
 1. compress the modified folder to get a `papyrus.tar.gz` again.
 
 ### Build it manually with Docker
 
 ```zsh
-docker build -t papyrus/base papyrus --build-arg PAPYRUS_VERSION=$PAPYRUS_VERSION
+cp eclipse/set_memory_flags.py papyrus/set_memory_flags.py
+cp capella/install_dropins.py papyrus/install_dropins.py
+docker build -t papyrus/base papyrus \
+    --build-arg PAPYRUS_VERSION=$PAPYRUS_VERSION \
+    --build-arg PAPYRUS_DROPINS="$PAPYRUS_DROPINS"
 ```
 
 If you want to configure the JVM memory options, have a look at

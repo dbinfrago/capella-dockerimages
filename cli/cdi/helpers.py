@@ -23,17 +23,29 @@ def print_cli_options(options: dict[str, t.Any], context: str) -> None:
     )
 
 
-def copy_memory_flags_file(memory_flags_target: pathlib.Path) -> None:
-    memory_flags_source = _repository_root / "eclipse" / "set_memory_flags.py"
-
-    if not memory_flags_target.exists() or not filecmp.cmp(
-        memory_flags_source, memory_flags_target
-    ):
+def copy_shared_file(source: pathlib.Path, target: pathlib.Path) -> None:
+    """Copy a file shared by several build contexts into one context."""
+    if not target.exists() or not filecmp.cmp(source, target):
         log.warning(
-            "%s is out of date. Overwriting file with eclipse/set_memory_flags.py",
-            memory_flags_target.relative_to(_repository_root),
+            "%s is out of date. Overwriting file with %s",
+            target.relative_to(_repository_root),
+            source.relative_to(_repository_root),
         )
-        memory_flags_target.write_text(memory_flags_source.read_text())
+        target.write_text(source.read_text())
+
+
+def copy_memory_flags_file(memory_flags_target: pathlib.Path) -> None:
+    copy_shared_file(
+        _repository_root / "eclipse" / "set_memory_flags.py",
+        memory_flags_target,
+    )
+
+
+def copy_install_dropins_file(install_dropins_target: pathlib.Path) -> None:
+    copy_shared_file(
+        _repository_root / "capella" / "install_dropins.py",
+        install_dropins_target,
+    )
 
 
 def whitelist_xhost() -> None:
