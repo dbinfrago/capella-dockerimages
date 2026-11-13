@@ -7,6 +7,9 @@
 // the graphics-state attributes change although the diagram did not.
 // Painting connections in the order of the notation edges makes the export
 // byte-for-byte reproducible.
+//
+// Sequence diagrams are rendered with the Interaction's EAnnotations
+// detached, see InteractionAnnotations.
 package org.dbinfrago.papyrus.diagramcache;
 
 import java.util.ArrayList;
@@ -16,9 +19,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gef.ConnectionEditPart;
+import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.image.ImageFileFormat;
@@ -26,8 +33,37 @@ import org.eclipse.gmf.runtime.diagram.ui.render.clipboard.DiagramGenerator;
 import org.eclipse.gmf.runtime.diagram.ui.render.clipboard.DiagramSVGGenerator;
 import org.eclipse.gmf.runtime.diagram.ui.render.util.CopyToImageUtil;
 import org.eclipse.gmf.runtime.notation.Diagram;
+import org.eclipse.swt.widgets.Display;
 
 class DeterministicCopyToImageUtil extends CopyToImageUtil {
+
+    @Override
+    @SuppressWarnings("rawtypes")
+    public List copyToImage(Diagram diagram, IPath destination, ImageFileFormat format,
+            IProgressMonitor monitor, PreferencesHint preferencesHint)
+            throws CoreException {
+        InteractionAnnotations annotations = InteractionAnnotations.detach(diagram);
+        try {
+            List result = super.copyToImage(diagram, destination, format, monitor,
+                preferencesHint);
+            // Run the tasks the sequence diagram edit policies queued with
+            // asyncExec while the annotations are still detached, so that
+            // their failures cannot surface in the next diagram's export.
+            drainAsyncQueue();
+            return result;
+        } finally {
+            annotations.restore();
+        }
+    }
+
+    private static void drainAsyncQueue() {
+        Display display = Display.getCurrent();
+        if (display != null) {
+            while (display.readAndDispatch()) {
+                // keep dispatching
+            }
+        }
+    }
 
     @Override
     protected DiagramGenerator getDiagramGenerator(DiagramEditPart diagramEP,

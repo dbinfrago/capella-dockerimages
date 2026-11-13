@@ -217,6 +217,7 @@ public class ExportApplication implements IApplication {
                     PreferencesHint.USE_DEFAULTS);
             } catch (Exception e) {
                 error = describe(e);
+                e.printStackTrace(System.err);
             }
             records.add(record(uuid, "gmf", diagram.getName(), diagram.getType(),
                 null, error));
@@ -274,6 +275,7 @@ public class ExportApplication implements IApplication {
                 }
             } catch (Exception e) {
                 error = describe(e);
+                e.printStackTrace(System.err);
             }
             records.add(record(uuid, "sirius", descriptor.getName(), type, owner, error));
             log(uuid, descriptor.getName(), error);
