@@ -9,7 +9,8 @@
 // byte-for-byte reproducible.
 //
 // Sequence diagrams are rendered with the Interaction's EAnnotations
-// detached, see InteractionAnnotations.
+// detached, see InteractionAnnotations. SVG font families are written as
+// GMF requested them, see SvgFontFamilies.
 package org.dbinfrago.papyrus.diagramcache;
 
 import java.util.ArrayList;
@@ -69,6 +70,7 @@ class DeterministicCopyToImageUtil extends CopyToImageUtil {
     protected DiagramGenerator getDiagramGenerator(DiagramEditPart diagramEP,
             ImageFileFormat format) {
         if (format.equals(ImageFileFormat.SVG)) {
+            SvgFontFamilies.install();
             return new OrderedSVGGenerator(diagramEP);
         }
         return super.getDiagramGenerator(diagramEP, format);
