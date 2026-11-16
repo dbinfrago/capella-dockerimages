@@ -8,9 +8,10 @@
 // Painting connections in the order of the notation edges makes the export
 // byte-for-byte reproducible.
 //
-// Sequence diagrams are rendered with the Interaction's EAnnotations
-// detached, see InteractionAnnotations. SVG font families are written as
-// GMF requested them, see SvgFontFamilies.
+// Sequence diagram edit policies queue asyncExec tasks that fail on the
+// Interaction's EAnnotations. They run with the annotations detached; the
+// labels are computed and painted with them, see InteractionAnnotations.
+// SVG font families are written as GMF requested them, see SvgFontFamilies.
 package org.dbinfrago.papyrus.diagramcache;
 
 import java.util.ArrayList;
@@ -29,32 +30,61 @@ import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.image.ImageFileFormat;
 import org.eclipse.gmf.runtime.diagram.ui.render.clipboard.DiagramGenerator;
 import org.eclipse.gmf.runtime.diagram.ui.render.clipboard.DiagramSVGGenerator;
 import org.eclipse.gmf.runtime.diagram.ui.render.util.CopyToImageUtil;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 
 class DeterministicCopyToImageUtil extends CopyToImageUtil {
+
+    /** Annotations of the diagram being exported. */
+    private InteractionAnnotations annotations;
 
     @Override
     @SuppressWarnings("rawtypes")
     public List copyToImage(Diagram diagram, IPath destination, ImageFileFormat format,
             IProgressMonitor monitor, PreferencesHint preferencesHint)
             throws CoreException {
-        InteractionAnnotations annotations = InteractionAnnotations.detach(diagram);
+        annotations = InteractionAnnotations.of(diagram);
         try {
             List result = super.copyToImage(diagram, destination, format, monitor,
                 preferencesHint);
-            // Run the tasks the sequence diagram edit policies queued with
-            // asyncExec while the annotations are still detached, so that
-            // their failures cannot surface in the next diagram's export.
+            // Run the tasks queued while painting now, so that their
+            // failures cannot surface in the next diagram's export.
+            annotations.detach();
             drainAsyncQueue();
             return result;
         } finally {
-            annotations.restore();
+            annotations.close();
+            annotations = null;
         }
+    }
+
+    @Override
+    public DiagramEditPart createDiagramEditPart(Diagram diagram, Shell shell,
+            PreferencesHint preferencesHint) {
+        // GMF dispatches the event loop once the edit parts exist. This task
+        // is queued before the edit policies queue theirs, so it detaches the
+        // annotations before those run.
+        Display.getCurrent().asyncExec(annotations::detach);
+        DiagramEditPart diagramEP = super.createDiagramEditPart(diagram, shell,
+            preferencesHint);
+        drainAsyncQueue();
+        annotations.restore();
+        // The tasks change the model, and labels refreshed meanwhile were
+        // computed without the annotations.
+        List<Object> parts = new ArrayList<>(diagramEP.getViewer().getEditPartRegistry().values());
+        for (Object part : parts) {
+            if (part instanceof ITextAwareEditPart label) {
+                label.refresh();
+            }
+        }
+        diagramEP.getViewer().flush();
+        return diagramEP;
     }
 
     private static void drainAsyncQueue() {
