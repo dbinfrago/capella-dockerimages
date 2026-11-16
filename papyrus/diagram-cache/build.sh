@@ -36,6 +36,7 @@ PREFIXES=(
 	org.eclipse.ui.workbench_ org.eclipse.jface_ org.eclipse.uml2.uml_
 	org.eclipse.gmf.runtime.common.core_ org.eclipse.gmf.runtime.common.ui.services_
 	org.eclipse.gmf.runtime.draw2d.ui_ org.eclipse.gmf.runtime.gef.ui_
+	org.apache.batik.svggen_
 )
 CLASSPATH=""
 for prefix in "${PREFIXES[@]}"; do

@@ -36,4 +36,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.gmf.runtime.common.ui.services,
  org.eclipse.gmf.runtime.draw2d.ui,
  org.eclipse.gmf.runtime.gef.ui,
- org.eclipse.uml2.uml
+ org.eclipse.uml2.uml,
+ org.apache.batik.svggen

@@ -25,6 +25,13 @@ Papyrus 7.x images additionally contain the headless
 [Papyrus diagram cache](../ci-templates/gitlab/papyrus-diagram-cache.md)
 exporter (`papyrus-diagram-cache`) and `xvfb-run`.
 
+Papyrus lays out diagram text in Segoe UI, which cannot be redistributed. The
+image contains [Selawik](https://github.com/microsoft/Selawik) (SIL Open Font
+License 1.1), Microsoft's metric compatible replacement, and fontconfig
+resolves `Segoe UI` to it. Labels therefore wrap and truncate as in Papyrus
+on Windows. The exported SVGs still name `Segoe UI`, so viewers render the
+original font where it is installed.
+
 The only supported build architecture is amd64. To build and run the image on
 other build architectures, use QEMU or Rosetta.
 
