@@ -56,6 +56,17 @@ RUN case "$PAPYRUS_VERSION" in \
     -repository "$SYSML_REPOSITORY" \
     -installIU "org.eclipse.papyrus.sysml16.elementgroup.feature.feature.group,org.eclipse.papyrus.sysml16.feature.feature.group,org.eclipse.papyrus.sysml16.requirements.extension.feature.feature.group"
 
+ENV ECLIPSE_INSTALLATION_PATH=/opt/Papyrus
+ENV ECLIPSE_EXECUTABLE=/opt/Papyrus/papyrus
+
+# Install dropins for Papyrus
+COPY ./versions/${PAPYRUS_VERSION}/dropins /opt/Papyrus/dropins
+ARG PAPYRUS_DROPINS=""
+COPY install_dropins.py /opt/install_dropins.py
+COPY ./versions/${PAPYRUS_VERSION}/dropins*.yml /opt
+COPY ./versions/${PAPYRUS_VERSION}/patches /opt/patches
+RUN DROPINS="$PAPYRUS_DROPINS" python /opt/install_dropins.py
+
 # Headless diagram cache exporter (Papyrus 7.x only)
 COPY diagram-cache /opt/setup/diagram-cache
 RUN case "$PAPYRUS_VERSION" in \
@@ -67,9 +78,6 @@ COPY ./autostart /home/techuser/.config/openbox/autostart
 
 ENV AUTOSTART_PAPYRUS=1
 ENV RESTART_PAPYRUS=1
-
-ENV ECLIPSE_INSTALLATION_PATH=/opt/Papyrus
-ENV ECLIPSE_EXECUTABLE=/opt/Papyrus/papyrus
 
 # Set memory options for the JVM (used by set_memory_flags.py)
 ARG MEMORY_MAX=90%

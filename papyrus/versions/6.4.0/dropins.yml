@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: Copyright DB InfraGO AG and contributors
+# SPDX-License-Identifier: Apache-2.0
+
+# Dropins installable with PAPYRUS_DROPINS / --papyrus-dropins.
+# Same schema as capella/versions/*/dropins.yml.
+dropins: {}

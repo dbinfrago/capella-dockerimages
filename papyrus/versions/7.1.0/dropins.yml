@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: Copyright DB InfraGO AG and contributors
+# SPDX-License-Identifier: Apache-2.0
+
+# Dropins installable with PAPYRUS_DROPINS / --papyrus-dropins.
+# Same schema as capella/versions/*/dropins.yml.
+dropins:
+  EulynxSpecification:
+    github: 'https://github.com/dbinfrago/eulynx-papyrus-plugin'
+    type: dropin
+    downloadURL: 'https://github.com/dbinfrago/eulynx-papyrus-plugin/releases/download/v1.0.1/com.eulynx.papyrus.specification_1.0.1.jar'
+    fileName: 'com.eulynx.papyrus.specification_1.0.1.jar'

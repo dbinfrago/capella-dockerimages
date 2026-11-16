@@ -9,6 +9,7 @@ from cdi import (
     _repository_root,
     args,
     docker,
+    dropins,
     formatting,
     git,
     helpers,
@@ -66,6 +67,7 @@ def papyrus(
     push: args.PushOption = False,
     no_cache: args.NoCacheOption = False,
     papyrus_version: papyrus_args.PapyrusVersionOption = "7.1.0",
+    papyrus_dropins: papyrus_args.PapyrusDropinsOption = "",
     remote: args.RemoteOption = True,
     labels: args.ImageLabelOption = None,
     _verbose: _logging.VerboseOption = False,
@@ -79,6 +81,9 @@ def papyrus(
 
     validators.validate_build_architecture(docker.SupportedArchitecture.amd64)
     validate_papyrus_archive(papyrus_version=papyrus_version)
+    dropins.validate_dropins(
+        "papyrus", papyrus_version, dropins=papyrus_dropins.split(",")
+    )
     base_image_tag = base_image_tag.format(
         cdi_revision=git.get_current_cdi_revision()
     )
@@ -108,6 +113,9 @@ def papyrus(
     helpers.copy_memory_flags_file(
         _repository_root / "papyrus" / "set_memory_flags.py"
     )
+    helpers.copy_install_dropins_file(
+        _repository_root / "papyrus" / "install_dropins.py"
+    )
     with docker.build_dockerignore(
         "papyrus", ["versions/*", f"!versions/{papyrus_version}"]
     ):
@@ -119,6 +127,7 @@ def papyrus(
             build_args={
                 "BASE_IMAGE": base_image_name,
                 "PAPYRUS_VERSION": papyrus_version,
+                "PAPYRUS_DROPINS": papyrus_dropins,
             },
             labels=helpers.transform_labels(labels),
         )

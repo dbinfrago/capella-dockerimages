@@ -93,7 +93,14 @@ jobs:
           - version: '7.1.0'
             release: '2025-06'
             sha512: '33a64e8ebf169bdca09b53d61c14c0b23ee2d224d9ecc4b68d4fc41f90fddec4581df3c7f5cfd16df334bd534c8f62e9460d73c302c6a270bf12b52b7b3f0c19'
-    name: Papyrus ${{ matrix.papyrus.version }}
+        dropins:
+          - name: 'without'
+            dropins: ''
+          - name: 'selected'
+            dropins: 'EulynxSpecification'
+    name:
+      Papyrus ${{ matrix.papyrus.version }} - ${{ matrix.dropins.name }}
+      dropins
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -125,6 +132,7 @@ jobs:
             --no-remote \
             --papyrus-version "${{ matrix.papyrus.version }}" \
             --image-prefix "${{ env.REGISTRY }}" \
-            --image-tag "{papyrus_version}-${{ steps.tag.outputs.branch }}" \
+            --image-tag "{papyrus_version}-${{ matrix.dropins.name }}-dropins-${{ steps.tag.outputs.branch }}" \
+            --papyrus-dropins "${{ matrix.dropins.dropins }}" \
             --label "git-short-sha=${{ steps.tag.outputs.sha }}" \
             --verbose

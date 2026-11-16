@@ -25,6 +25,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import threading
 import typing as t
 import xml.etree.ElementTree as ET
 
@@ -177,15 +178,64 @@ def run_papyrus(
             "-out",
             str(output),
         ]
+        process = subprocess.Popen(
+            cmd, stdout=subprocess.PIPE, text=True, errors="replace"
+        )
+        timer = threading.Timer(timeout, process.kill)
+        timer.start()
         try:
-            subprocess.run(cmd, check=False, timeout=timeout)
-        except subprocess.TimeoutExpired:
+            assert process.stdout is not None
+            suppressed = filter_eclipse_log(process.stdout, sys.stdout)
+            process.wait()
+        finally:
+            timed_out = not timer.is_alive()
+            timer.cancel()
+        if suppressed:
+            print(f"suppressed {suppressed} headless '{HEADLESS_NOISE}' log entries")
+        if timed_out:
             print(
                 f"error: Papyrus export timed out after {timeout}s",
                 file=sys.stderr,
             )
             return False
     return True
+
+
+# Logged once per diagram edit part: the export renders without an editor.
+HEADLESS_NOISE = (
+    "No service registered under"
+    " 'interface org.eclipse.papyrus.infra.ui.editor.IMultiDiagramEditor'"
+)
+
+
+def filter_eclipse_log(lines: t.Iterable[str], out: t.TextIO) -> int:
+    """Copy Eclipse console log lines, dropping headless-noise entries.
+
+    An entry starts with ``!ENTRY`` and ends at a blank line. Returns the
+    number of dropped entries.
+    """
+    suppressed = 0
+    entry: list[str] = []
+
+    def flush() -> None:
+        nonlocal suppressed
+        if any(HEADLESS_NOISE in line for line in entry):
+            suppressed += 1
+        else:
+            out.writelines(entry)
+        entry.clear()
+
+    for line in lines:
+        if line.startswith("!ENTRY"):
+            flush()
+        if entry or line.startswith("!ENTRY"):
+            entry.append(line)
+            if not line.strip():
+                flush()
+        else:
+            out.write(line)
+    flush()
+    return suppressed
 
 
 def gmf_owners(notation: ET.Element) -> dict[str, str | None]:
