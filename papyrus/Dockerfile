@@ -18,6 +18,7 @@ ADD ./versions/${PAPYRUS_VERSION}/papyrus.tar.gz /opt/
 WORKDIR /opt/
 
 # Runtime libraries for headless rendering (diagram cache) via xvfb-run
+# and for post-processing the diagram cache in Python (cairosvg, python-magic)
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
     libgtk-3-0 \
@@ -25,22 +26,25 @@ RUN apt-get update && \
     xvfb \
     xauth \
     dbus-x11 \
+    fontconfig \
+    libcairo2 \
+    libmagic1 \
     fonts-dejavu-core && \
     rm -rf /var/lib/apt/lists/*
 
 # Papyrus lays out diagram text in Segoe UI (see fontconfig/30-segoe-ui.conf).
 # Selawik, its metric compatible replacement, keeps label widths, wrapping
 # and truncation as on Windows.
-ARG SELAWIK_VERSION=1.01
-ARG SELAWIK_SHA256=3f62c51e05e3b5a1e6241cf92a371f0be2ea1183aa87b30718bbd40832a8d423
 COPY fontconfig/30-segoe-ui.conf /etc/fonts/conf.d/30-segoe-ui.conf
-RUN wget -q -O /tmp/selawik.zip "https://github.com/microsoft/Selawik/releases/download/${SELAWIK_VERSION}/Selawik_Release.zip" && \
-    echo "${SELAWIK_SHA256}  /tmp/selawik.zip" | sha256sum -c - && \
-    mkdir -p /usr/local/share/fonts/selawik && \
-    unzip -j /tmp/selawik.zip selawk.ttf selawkb.ttf -d /usr/local/share/fonts/selawik && \
-    wget -q -O /usr/local/share/fonts/selawik/LICENSE.txt "https://raw.githubusercontent.com/microsoft/Selawik/${SELAWIK_VERSION}/LICENSE.txt" && \
-    rm /tmp/selawik.zip && \
-    fc-cache -f
+COPY fonts/selawk.ttf fonts/selawkb.ttf fonts/LICENSE.txt /usr/local/share/fonts/selawik/
+RUN fc-cache -f
+
+# Python 3.13 for tools that post-process the diagram cache; the base image
+# ships 3.11. Installed for all users, used via `uv venv --python 3.13`.
+ENV UV_PYTHON_INSTALL_DIR=/opt/uv/python
+RUN pip install --no-cache-dir uv && \
+    uv --no-cache python install 3.13 && \
+    chmod -R a+rX /opt/uv
 
 COPY set_memory_flags.py /opt/setup/set_memory_flags.py
 # Papyrus 7.x ships the launcher as papyrus-desktop; expose it as papyrus
