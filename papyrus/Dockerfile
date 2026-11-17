@@ -18,6 +18,7 @@ ADD ./versions/${PAPYRUS_VERSION}/papyrus.tar.gz /opt/
 WORKDIR /opt/
 
 # Runtime libraries for headless rendering (diagram cache) via xvfb-run
+# and for post-processing the diagram cache in Python (cairosvg, python-magic)
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
     libgtk-3-0 \
@@ -25,6 +26,9 @@ RUN apt-get update && \
     xvfb \
     xauth \
     dbus-x11 \
+    fontconfig \
+    libcairo2 \
+    libmagic1 \
     fonts-dejavu-core && \
     rm -rf /var/lib/apt/lists/*
 
@@ -34,6 +38,13 @@ RUN apt-get update && \
 COPY fontconfig/30-segoe-ui.conf /etc/fonts/conf.d/30-segoe-ui.conf
 COPY fonts/selawk.ttf fonts/selawkb.ttf fonts/LICENSE.txt /usr/local/share/fonts/selawik/
 RUN fc-cache -f
+
+# Python 3.13 for tools that post-process the diagram cache; the base image
+# ships 3.11. Installed for all users, used via `uv venv --python 3.13`.
+ENV UV_PYTHON_INSTALL_DIR=/opt/uv/python
+RUN pip install --no-cache-dir uv && \
+    uv --no-cache python install 3.13 && \
+    chmod -R a+rX /opt/uv
 
 COPY set_memory_flags.py /opt/setup/set_memory_flags.py
 # Papyrus 7.x ships the launcher as papyrus-desktop; expose it as papyrus
